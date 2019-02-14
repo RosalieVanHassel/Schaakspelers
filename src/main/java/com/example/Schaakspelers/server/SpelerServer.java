@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class SpelerServer {
@@ -17,5 +19,12 @@ public class SpelerServer {
     }
     public void saveSpeler(Speler speler){
         spelerRepository.save(speler);
+    }
+    public void removeSpeler(Long id){
+        spelerRepository.deleteById(id);
+    }
+
+    public Optional<Speler> findElementById(Long id){
+        return spelerRepository.findById(id);
     }
 }

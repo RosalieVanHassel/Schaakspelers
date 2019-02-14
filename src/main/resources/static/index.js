@@ -13,6 +13,10 @@ $(document).ready(function(){
             }
         });
 }
+
+
+
+
 function returnAll(result){
 
               var content = '<table id = "alleSpelers" class="table table-bordered table-striped table-hover table-condensed">';
@@ -21,55 +25,42 @@ function returnAll(result){
              content += '<th> Naam </th>';
              content += '<th> Geboortedatum </th>';
              content += '<th> Gewonnenpartijen </th>';
+             content += '<th>  </th>';
              content += '<th> Verlorenparijen </th>';
+             content += '<th>  </th>';
              content += '<th> Gelijkspel </th>';
+             content += '<th>  </th>';
+             content += '<th> Delete </th>';
              content += '</thead>';
              content += '<tbody id = "tablebody">';
 
             $.each(result, function (index, result) {
-
+                    var spelerId = result.id
                  content += "<tr id = 'spelerRow'>";
                  content += "<td style='cursor: pointer;' id='verander'> " + result.id + "</td>";
 
                  if(result.tussenvoegsel == null){
-                 content += '<td>' + result.voornaam + ' ' + result.achternaam+ '</td>';
+                    content += '<td>' + result.voornaam + ' ' + result.achternaam+ '</td>';
                  }else{
-                 content += '<td>' + result.voornaam + ' ' + result.tussenvoegsel + ' '+ result.achternaam+ '</td>';
+                    content += '<td>' + result.voornaam+' '+result.tussenvoegsel+' '+result.achternaam+'</td>';
                  }
 
                  content += "<td>" + result.geboortedatum + "</td>";
                  content += "<td>" + result.gewonnenPartijen + "</td>";
+                 content += "<td><button id='gewonnen'>+</button></td>"
                  content += "<td>" + result.verlorenPartijen + "</td>";
+                 content += "<td><button id='verloren'>+</button></td>"
                  content += "<td>" + result.remises+ "</td>";
+                 content += "<td><button id='gelijkspel'>+</button></td>"
+                 content += "<td><button id='deleteButton' >X</button></td>";
                  content += "</tr>";
-})
+
+        })
              content += '</tbody> </table> <div class = "row"></div>';
 
              $("#alleSpelersDiv").html(content);
              $('#alleSpelers').DataTable();
-            }
-//
-//$('#voegToe').on('click',function(){
-//    var content = '<form id="formId"><label>Voornaam</label><input id="voornaam" value="Piet" type="text"><br>'
-//    content += '<label>Tussenvoegsel</label><input id="tussenvoegsel"  value="Piet" type="text"><br>'
-//    content += '<label>Achternaam</label><input id="achternaam"  value="Piet" type="text"><br>'
-//    content += '<label>Geboortedatum</label><input id="geboortedatum"  value="1989-10-22" type="date"><br>'
-//    content += '<label>Spellen gewonnen</label><input id="gewonnen"  value="3" type="text"><br>'
-//    content += '<label>Spellen verloren</label><input id="verloren"  value="4" type="text"><br>'
-//    content += '<label>Gelijkspel</label><input id="gelijkspel"  value="4" type="text"><br>'
-//    content += '<input id="confirmNewGuest" type="submit" value = "Submit"/>'
-//    //content += '<button id="submitSpeler" type="submit">Voeg toe</button></form>'
-//
-//    $("#voegToeDiv").html(content);
-//    console.log(document.getElementById('voornaam').value);
-//      //submitFunction();
-//})
-
-
-//$(document).ready(function(){
-//    document.getElementById('formId').hide()
-//})
-
+}
 
 $("#formId").submit(function () {
      var nieuweSpelerForm = $(this).serializeArray();
@@ -77,9 +68,6 @@ $("#formId").submit(function () {
     $(nieuweSpelerForm).each(function(i, field) {
         nieuweSpeler[field.name] = field.value
     });
-   console.log(nieuweSpeler);
-
-
         $.ajax({
             type: "POST",
             url : "/voegSpelerToe",
@@ -87,19 +75,50 @@ $("#formId").submit(function () {
             contentType: "application/json; charset=utf-8", // this
             dataType: "json", // and this
             success : function(result) {
-
             }
-
         });
 getAlleSchakers();
-
-
-
 })
-//
-//function submitFunction(){
-//    $('#submitSpeler').on('click',function(){
-// alert('hoi')
-//alert('nieuw speler'+document.getElementById('voornaam').value );
-//
-//})}
+
+$(document).on('click','#deleteButton',function(){
+    var idOfDelete =this.parentElement.parentElement.querySelector('#verander').innerText
+        jQuery.ajax({
+            url: '/spelerdelete/' + idOfDelete,
+            type: 'DELETE',
+            success: function() {
+getAlleSchakers();
+            }
+        });
+})
+
+$(document).on('click', '#gewonnen', function () {
+    var idForChange =this.parentElement.parentElement.querySelector('#verander').innerText
+    $.ajax({
+        type: 'put',
+        url: '/speleraanpassen/win/' + idForChange,
+        success: function () {
+            getAlleSchakers();
+        }
+    });
+});
+
+$(document).on('click', '#verloren', function () {
+    var idForChange =this.parentElement.parentElement.querySelector('#verander').innerText
+    $.ajax({
+        type: 'put',
+        url: '/speleraanpassen/verlies/' + idForChange,
+        success: function () {
+            getAlleSchakers();
+        }
+    });
+});
+$(document).on('click', '#gelijkspel', function () {
+    var idForChange =this.parentElement.parentElement.querySelector('#verander').innerText
+    $.ajax({
+        type: 'put',
+        url: '/speleraanpassen/gelijk/' + idForChange,
+        success: function () {
+            getAlleSchakers();
+        }
+    });
+});
