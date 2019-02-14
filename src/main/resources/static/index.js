@@ -25,18 +25,24 @@ function returnAll(result){
              content += '</thead>';
              content += '<tbody id = "tablebody">';
 
-//            $.each(result, function (index, result) {
-//
-//                 content += "<tr id = 'spelerRow'>";
-//                 content += "<td style='cursor: pointer;' id='verander'> " + result.id + "</td>";
-//                 content += '<td>' + result.voornaam + ' ' + result.tussenvoegsel + ' '+ result.achternaam+ '</td>';
-//                 content += "<td>" + result.geboortedatum + "</td>";
-//                 content += "<td>" + result.gewonnenPartijen + "</td>";
-//                 content += "<td>" + result.verlorenPartijen + "</td>";
-//                 content += "<td>" + result.remises+ "</td>";
-//                 content += "</tr>";
-//})
-//             content += '</tbody> </table> <div class = "row"></div>';
+            $.each(result, function (index, result) {
+
+                 content += "<tr id = 'spelerRow'>";
+                 content += "<td style='cursor: pointer;' id='verander'> " + result.id + "</td>";
+
+                 if(result.tussenvoegsel == null){
+                 content += '<td>' + result.voornaam + ' ' + result.achternaam+ '</td>';
+                 }else{
+                 content += '<td>' + result.voornaam + ' ' + result.tussenvoegsel + ' '+ result.achternaam+ '</td>';
+                 }
+
+                 content += "<td>" + result.geboortedatum + "</td>";
+                 content += "<td>" + result.gewonnenPartijen + "</td>";
+                 content += "<td>" + result.verlorenPartijen + "</td>";
+                 content += "<td>" + result.remises+ "</td>";
+                 content += "</tr>";
+})
+             content += '</tbody> </table> <div class = "row"></div>';
 
              $("#alleSpelersDiv").html(content);
              $('#alleSpelers').DataTable();
