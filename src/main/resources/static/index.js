@@ -1,9 +1,17 @@
-$('#test').on('click',function(){
-    alert('test');
-    returnAll(1);
+$('#toonAlleSchakers').on('click',function(){
+    getAlleSchakers();
 
 })
-
+ function getAlleSchakers(){
+    $.ajax({
+            type:'get',
+            url: '/alleSchakers',
+            success: function(result) {
+                console.log(result);
+                returnAll(result);
+            }
+        });
+}
 function returnAll(result){
 
               var content = '<table id = "alleSpelers" class="table table-bordered table-striped table-hover table-condensed">';
