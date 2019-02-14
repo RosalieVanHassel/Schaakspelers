@@ -1,4 +1,5 @@
-$('#toonAlleSchakers').on('click',function(){
+//$('#toonAlleSchakers').on('click',function(){
+$(document).ready(function(){
     getAlleSchakers();
 
 })
@@ -47,4 +48,58 @@ function returnAll(result){
              $("#alleSpelersDiv").html(content);
              $('#alleSpelers').DataTable();
             }
+//
+//$('#voegToe').on('click',function(){
+//    var content = '<form id="formId"><label>Voornaam</label><input id="voornaam" value="Piet" type="text"><br>'
+//    content += '<label>Tussenvoegsel</label><input id="tussenvoegsel"  value="Piet" type="text"><br>'
+//    content += '<label>Achternaam</label><input id="achternaam"  value="Piet" type="text"><br>'
+//    content += '<label>Geboortedatum</label><input id="geboortedatum"  value="1989-10-22" type="date"><br>'
+//    content += '<label>Spellen gewonnen</label><input id="gewonnen"  value="3" type="text"><br>'
+//    content += '<label>Spellen verloren</label><input id="verloren"  value="4" type="text"><br>'
+//    content += '<label>Gelijkspel</label><input id="gelijkspel"  value="4" type="text"><br>'
+//    content += '<input id="confirmNewGuest" type="submit" value = "Submit"/>'
+//    //content += '<button id="submitSpeler" type="submit">Voeg toe</button></form>'
+//
+//    $("#voegToeDiv").html(content);
+//    console.log(document.getElementById('voornaam').value);
+//      //submitFunction();
+//})
 
+
+//$(document).ready(function(){
+//    document.getElementById('formId').hide()
+//})
+
+
+$("#formId").submit(function () {
+     var nieuweSpelerForm = $(this).serializeArray();
+     var nieuweSpeler = {};
+    $(nieuweSpelerForm).each(function(i, field) {
+        nieuweSpeler[field.name] = field.value
+    });
+   console.log(nieuweSpeler);
+
+
+        $.ajax({
+            type: "POST",
+            url : "/voegSpelerToe",
+            data : JSON.stringify(nieuweSpeler),
+            contentType: "application/json; charset=utf-8", // this
+            dataType: "json", // and this
+            success : function(result) {
+
+            }
+
+        });
+getAlleSchakers();
+
+
+
+})
+//
+//function submitFunction(){
+//    $('#submitSpeler').on('click',function(){
+// alert('hoi')
+//alert('nieuw speler'+document.getElementById('voornaam').value );
+//
+//})}

@@ -15,4 +15,7 @@ public class SpelerServer {
     public Iterable<Speler> getAll(){
         return spelerRepository.findAll();
     }
+    public void saveSpeler(Speler speler){
+        spelerRepository.save(speler);
+    }
 }

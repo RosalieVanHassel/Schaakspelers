@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 public class Speler {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String voornaam;
