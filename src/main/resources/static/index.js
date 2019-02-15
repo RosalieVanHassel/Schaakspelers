@@ -81,6 +81,7 @@ getAlleSchakers();
 })
 
 $(document).on('click','#deleteButton',function(){
+if (confirm('Weet je het zeker dat je deze speler wilt verwijderen?')) {
     var idOfDelete =this.parentElement.parentElement.querySelector('#verander').innerText
         jQuery.ajax({
             url: '/spelerdelete/' + idOfDelete,
@@ -89,6 +90,7 @@ $(document).on('click','#deleteButton',function(){
 getAlleSchakers();
             }
         });
+        }
 })
 
 $(document).on('click', '#gewonnen', function () {
